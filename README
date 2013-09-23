@@ -3,6 +3,6 @@ LaTeX
 
 LaTeX examples by M. Linkus.
 
-I decided to learn LaTeX to be able to typeset mathematics.  These are some examples of work
-I have done in LaTeX.  I used MiKTeX (http://miktex.org/) Portable and compiled the TeX
-to .PDF format with texify.
+I decided to learn LaTeX to be able to typeset mathematics and these are some
+examples of work I have done using LaTeX.  I used MiKTeX (http://miktex.org/)
+Portable and compiled to .PDF using texify.
