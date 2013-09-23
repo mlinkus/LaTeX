@@ -1,0 +1,228 @@
+\documentclass[12pt]{article}
+\usepackage{amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{fullpage}
+
+\author{M. Linkus\\
+St. John's University}
+\title{Compilation of Proofs
+\\for the Master's Comprehensive Exam
+\\in Complex Variables}
+\date{\today}
+
+\newtheoremstyle{named}{}{}{\itshape}{}{\bfseries}{.}{.5em}{\thmnote{#3}#1}
+\theoremstyle{named}
+\newtheorem*{theorem}{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\pagebreak
+
+\section{Cauchy's Inequalities}
+\begin{theorem}[Statement]
+	Let $f(z)$ be analytic in the disk where $|z - z_{0} | \leq r$, and let $M = max ~|f(z)|$ in
+	the disk.  Let $a_{n}$ be the $n^{th}$ coefficient of the Taylor Series of $f$ about $z_{0}$.
+	Then  $|a_{n}| \leq M / ~r^{n}$.
+\end{theorem}
+\begin{proof}[Proof.]
+By Cauchy's Formula for derivatives, we have
+$$ a_n = \frac{f^{(n)}(z_0)}{n!} $$
+$$ a_n = \frac{1}{2\pi i} \oint_{|w-z_0| = r} \frac{f(w)}{(w-z_0)^{n+1}} ~dw $$
+Estimating the integral, we get
+$$ |a_n| \leq \frac{1}{2\pi} \cdot \frac{M}{r^{n+1}} \cdot 2\pi r $$
+$$ |a_n| \leq \frac{M}{r^n} $$
+\end{proof}
+
+%
+
+\section{Liouville's Theorem}
+\begin{theorem}[Statement]
+	The only bounded entire functions are constant.
+\end{theorem}
+\begin{proof}[Proof.]
+Let $f(z)$ be a bounded, entire function and let $z$ be a fixed point of $\mathbb{C}$.
+
+Let $C = \{w \in \mathbb{C}: |w| = R \}$ where $R \gg 1$ and $R \gg |z|$.
+
+By Cauchy's Integral Formula,
+$$f(z) = \frac{1}{2\pi i} \oint_C \frac{f(w)}{w-z} ~dw $$
+and
+$$f(0) = \frac{1}{2\pi i} \oint_C \frac{f(w)}{w} ~dw $$
+Therefore
+$$|f(z) - f(0)| = \left|\frac{1}{2\pi i} \oint_C \left(\frac{f(w)}{w-z} - \frac{f(w)}{w}\right) ~dw \right|$$
+
+$$|f(z) - f(0)| \leq \frac{1}{2\pi} \oint_C \frac{|f(w)| \cdot |z|}{|w (w-z)|} ~|dw| $$
+Since $f$ is bounded, $|f(z)| \leq M < \infty ~\forall ~z \in \mathbb{C}$, therefore
+$$|f(z) - f(0)| \leq \frac{M \cdot |z|}{2\pi} \oint_C \frac{1}{R (R-|z|)} ~|dw| $$
+Since $2\pi R$ is the length of $C$ and $R (R-|z|)$ is constant with respect to $w$,
+$$|f(z) - f(0)| \leq \frac{M \cdot |z|}{2\pi} \cdot \frac{2\pi R}{R (R-|z|)} = \frac{M \cdot |z|}{R-|z|} \to 0 \text{ as } R \to \infty$$
+Therefore, $f(z) = f(0)$.  Since $z$ was any point of $\mathbb{C}$, $f$ is constant.
+\end{proof}
+
+%
+
+\section{Riemann's Theorem on Removable Singularities}
+\begin{theorem}[Statement]
+	If $f$ is analytic and bounded in some punctured neighborhood of $z_0$, then $\lim_{z \to z_0} f(z)$
+	exists.  If $f(z_0)$ is defined as this limit, then $f$ becomes analytic at $z_0$.
+\end{theorem}
+\begin{proof}[Proof.]
+Define $g(z) =
+	\begin{cases}
+		(z - z_0 )^2 f(z) & \text{if } z \neq z_0 \\
+		0       & \text{if } z = z_0
+	\end{cases}
+$
+\\ We show $g$ is analytic in a neighborhood of $z_0$.  $g$ is differentiable at $z_0$ because
+$$ g'(z_0) = \lim_{z \to z_0} \frac{g(z) - g(z_0)}{z - z_0} = \lim_{z \to z_0} \frac{(z-z_0)^2 f(z) - 0}{z - z_0} = \lim_{z \to z_0} (z-z_0) f(z) = 0 $$
+The last step is valid since $|f(z)|$ is bounded.  If $z \neq z_0$,
+$$ g'(z) = 2(z-z_0)f(z) + (z-z_0)^2 f'(z) $$
+So $g$ is analytic in a neighborhood of $z_0$.  Therefore, it coincides with its Taylor Series centered at $z_0$, that is,
+$$ g(z) = a_0 + a_1 (z-z_0) + a_2 (z-z_0)^2 + a_3 (z-z_0)^3 + \cdots $$
+But, $a_0 = g(z_0) = 0$ and $a_1 = g'(z_0) = 0$, therefore
+$$ g(z) = a_2 (z-z_0)^2 + a_3 (z-z_0)^3 + \cdots $$
+$$ f(z) = a_2 + a_3(z-z_0) + \cdots $$
+Set $f(z_0) = a_2$.  Since the power series is valid in a neighborhood of $z_0$ and $f(z)$ is bounded there,
+$f$ is analytic at $z_0$.
+
+%$$ g(z) = (z-z_0)^n h(z) $$
+%where $n > 2$, $h(z)$ is analytic (all convergent power series represent analytic functions), and $h(z) \neq 0$.
+%\\ In the punctured neighborhood of $z_0$, we have
+%$$ (z-z_0)^2 f(z) = (z-z_0)^n h(z) $$
+%\begin{equation*} f(z) = (z-z_0)^{n-2} h(z) \tag{*}\end{equation*}
+%$$ \lim_{z \to z_0} f(z) = \lim_{z \to z_0} (z-z_0)^{n-2} h(z) $$
+%Moreover, if $f(z) = \lim_{z \to z_0} f(z)$, then (*) holds in a neighborhood of $z_0$.
+%Therefore, $f(z)$ is analytic at $z_0$.
+\end{proof}
+
+%
+
+\section{Rouch\'{e}'s Theorem}
+\begin{theorem}[Statement]
+	Let $f$ and $g$ be analytic inside and on a simple, closed curve $C$ and suppose that
+	$|g(z)| < |f(z)|$ when $z$ is on $C$.  Then $f(z)$ and $f(z) + g(z)$ have the same number
+	of zeroes inside $C$.
+\end{theorem}
+\begin{proof}[Proof.]
+Let $N$ be the number of zeroes of $f(z) + g(z)$ inside $C$.
+\\By the Argument Principle,
+$$ N = \frac{1}{2\pi i} \oint_C \frac{f' + g'}{f + g} ~dz $$
+$$ N = \frac{1}{2\pi i} \oint_C \frac{f'}{f} ~dz + \frac{1}{2\pi i} \oint_C \left(\frac{f' + g'}{f + g} - \frac{f'}{f} \right) ~dz$$
+Let $I = \oint_C \left(\frac{f' + g'}{f + g} - \frac{f'}{f} \right) ~dz$
+\\If we can show that $I = 0$, then we are done.  Find a common denominator and
+$$ I = \oint_C \frac{g'f - gf'}{f(f+g)} ~dz $$
+$$ I = \oint_C \frac{\frac{g'f - gf'}{f^2}}{1+\frac{g}{f}} ~dz $$
+Let $\varphi = \frac{g}{f}$, then
+$$ I = \oint_C \frac{\varphi '}{1 + \varphi} ~dz $$
+Since $|\varphi| < 1$ on $C$,
+$$ I = \oint_C \varphi '(1 - \varphi + \varphi^2 - \varphi^3 + \cdots) ~dz $$
+$$ I = \oint_C \varphi ' ~dz - \oint_C \varphi '\varphi ~dz +\oint_C \varphi '\varphi^2 ~dz - \oint_C \varphi '\varphi^3 ~dz + \cdots $$
+$$ I = \oint_C (\varphi)' ~dz - \frac{1}{2}\oint_C (\varphi^2)' ~dz + \frac{1}{3}\oint_C (\varphi^3)' ~dz - \frac{1}{4}\oint_C (\varphi^4)' ~dz + \cdots $$
+We can see each integral is of a derivative and therefore zero, thus $I = 0$.
+\end{proof}
+
+%
+
+\section{Open Mapping Theorem}
+\begin{theorem}[Statement]
+	If a nonconstant function $f$ is analytic on a connected, open set $S$, then the image of
+	$S$ under $w = f(z)$ is an open set.
+\end{theorem}
+\begin{proof}[Proof.]
+Let $f(z)$ be a nonconstant analytic function on a connected, open set $S$.
+\\ Let $z_{0} \in S$ and set $w_{0} = f(z_{0})$.
+\\ Define $g(z) = f(z) - w_{0}$, a translation.  $g(z)$ is nonconstant, analytic, and $g(z_{0}) = 0$, which must
+be an isolated zero of $g$.
+\\ Therefore, there is an $r > 0$ such that the disk $\gamma = \{ |z - z_{0}| \leq r \}$ contains no other zeroes of $g$.
+\\ Let $\delta = \min\limits_{|z - z_{0}| = r} |g(z)|$.
+Let $\Delta$ be the open disk  $\{ |w - w_{0}| < \delta \}$.
+\\ Then for any $z$ on the circle $C = \{z: |z - z_{0}| = r\}$ we have $|w - w_{0}| < |g(z)|$ for some fixed $w \in \Delta$.
+\\ By Rouch\'{e}'s Theorem, $g(z)$ and $g(z) - (w - w_{0})$ have the same number of zeroes inside the disk $C$.
+\\ Since $g$ has at least one zero inside $C$, $g(z) - w + w_{0} = f(z) - w_{0} - w + w_{0} = f(z) - w$
+has at least one zero inside $C$.
+\\ So $w = f(z)$ for at least one $z$ inside $C$.  In other words,
+$w$ is in the image under $f$ of the disk bounded by $\gamma$.
+Therefore, every point $w_{0}$ in the image of $f$ has a neighborhood contained in the image of $f$.
+\end{proof}
+
+%
+
+\section{Schwarz' Lemma}
+\begin{theorem}[Statement]
+	If $f$ is analytic in a closed disk $\Delta$ of radius 1 centered at $z_0$, $f(z_0) = 0$, and
+	$|f(z)| \leq M$ on the boundary of $\Delta$; then $|f(z)| \leq M|z-z_0|$ for $z$ inside $\Delta$.
+	Equality holds for some interior point of $\Delta$ (other than $z_0$) if and only if
+	$f(z) \equiv Me^{i\theta}(z-z_{0})$ for some real $\theta$.
+\end{theorem}
+\begin{proof}[Proof.]
+Consider $g(z) = f(z) / (z-z_0)$ in $\Delta$.  Then $|g(z)| \leq M$ on the boundary of $\Delta$ and $g$ has a
+removable singularity at $z_0$, which we may suppose has been removed.  The maximum principle for $g$ says that
+$|g(z)| \leq M$ inside $\Delta$, whence $|f(z)| \leq M|z-z_0|$.  If equality holds at an interior point, then
+$g$ is a constant and $|g(z)| = M$.
+\end{proof}
+
+%
+
+\section{Pringsheim's Lemma}
+\begin{theorem}[Statement]
+	If $f(z) = \sum_{k=0}^{\infty} ~a_{k}z^{k}$, where $a_k \geq 0$ and the series has radius of convergence
+	$R$, then we cannot make a direct analytic continuation of $f$ to a neighborhood of the point $R$.
+\end{theorem}
+\begin{proof}[Proof.]
+Assume that $R = 1$ (ie., consider $f(Rz)$ instead.) and that $f(z)$ has an analytic continuation past $1$.
+\\ The extended function is analytic in some disk $D$ cenetered at $1$ and the union of $D$ with the unit disk
+ $\{|z| < 1\}$ contains a disk centered at $1/2$ with radius just greater than $1/2$. Since
+$$ f^{(n)}\left(\frac{1}{2}\right) = \sum_{k=n}^{\infty} \frac{k!}{(k-n)!} a_k \left(\frac{1}{2}\right)^{k-n} $$
+The Taylor Series of $f$ about $1/2$ for $x \in \mathbb{R}$ slightly larger than 1 is
+$$ f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}\left(\frac{1}{2}\right)}{n!} \left(x - \frac{1}{2} \right)^n $$
+$$ f(x) = \sum_{n=0}^{\infty} \frac{1}{n!} \left(x - \frac{1}{2} \right)^n \sum_{k=n}^{\infty} \frac{k!}{(k-n)!} a_k \left(\frac{1}{2}\right)^{k-n} $$
+Everything here is positive, so we can change the order of summation
+$$ f(x) = \sum_{k=0}^{\infty} a_k \sum_{n=0}^{k} \frac{1}{n!} \left(x-\frac{1}{2} \right)^n \frac{k!}{(k-n)!} \left(\frac{1}{2}\right)^{k-n} $$
+The inner sum is the binomial expanson of
+$$ \left[ \left(x-\frac{1}{2} \right) + \frac{1}{2} \right]^k = x^k $$
+So we have
+$$ f(x) = \sum_{k=0}^{\infty} a_k x^k ~\text{for some}~ x > 1 $$
+This series is the original power series for $f$, but now with $x > 1$.  Convergence of this series for some
+$x > 1$ implies convergence for all $z$ with $|z| < x$, so the Maclaurin series of $f$ has radius of convergence
+greater than $1$, a contradiction to our hypothesis.  This shows that $f$ cannot be continued directly past
+the point $1$.
+\end{proof}
+
+%
+
+\section{Abel's Theorem}
+\begin{theorem}[Statement]
+	If $\sum_{n=0}^{\infty} ~a_{n}z^{n}$ converges to $f(z)$ when $|z| < R$ and $\sum_{n=0}^{\infty} ~a_{n}R^{n}$
+	converges to $A$, then $\lim_{x \to R^{-}} f(x) = A$.
+\end{theorem}
+\begin{proof}[Proof.]
+Assume that $R = 1$ and $A = 0$. (ie., consider $g(z) = f(z/R) - A$ instead.)
+\\ We have $\sum_n a_n = 0$ and want to prove $\lim_{x \to 1^-} f(x) = 0$.
+$$ f(x) = a_0 + a_1 x + a_2 x^2 + a_3 x^3 + \cdots $$
+$$ s_n = a_0 + a_1 + \cdots + a_n $$
+$$ f(x) = s_0 + (s_1 - s_0)x + (s_2 - s_1)x^2 + \cdots + (s_n - s_{n-1})x^n + \cdots $$
+We can rearrange the terms of $f(x)$ because it is absolutely convergent.
+$$ f(x) = s_0(1-x) + s_1 x(1-x) + s_2 x^2 (1-x) + \cdots + s_n x^n (1-x) + \cdots $$
+Let $\epsilon > 0$ and since $f(x) = 1$,
+$$ \exists~ N(\epsilon): |s_n| < \epsilon ~\forall~ n \geq N(\epsilon) $$
+$$ |f(x)| \leq (1-x)\left|s_0 + s_1x + \cdots + s_{N-1} x^{N-1}\right| + (1-x)(|s_N| x^N + |s_{N+1}|n^{N+1} + \cdots) $$
+$$ |f(x)| \leq (1-x)(|s_0| + |s_1| + \cdots + |s_{N-1}|) + (1-x) \epsilon x^N (1 + x + x^2 + \cdots ) $$
+$$ |f(x)| \leq (1-x)(|s_0| + |s_1| + \cdots + |s_{N-1}|) + \frac{(1-x) \epsilon x^N}{(1-x)} $$
+$$ \limsup\limits_{x\to1^-} |f(x)| \leq \limsup\limits_{x\to1^-} \left[ (1-x)(|s_0| + |s_1| + \cdots + |s_{N-1}|) + \epsilon x^N) \right] $$
+$$ \limsup\limits_{x\to1^-} |f(x)| \leq \epsilon $$
+Since $\epsilon$ can be made arbitrarily small,
+$$ \limsup\limits_{x\to1^-} f(x) = 0 $$
+\end{proof}
+
+%
+
+\begin{thebibliography}{44}
+\bibitem{Boas}
+Ralph P. Boas, \emph{Invitation to Complex Analysis}, 2e, 2010, ISBN 978-0-88385-764-9
+
+\bibitem{Fisher}
+Stephen D. Fisher, \emph{Complex Variables}, 2e, 1999, ISBN 0-486-40679-2
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,144 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{amssymb, amsthm}
+\usepackage{mathtools}
+
+\author{M. Linkus\\
+St. John's University}
+\title{Transportation Problem
+\\Shipping Wood to Market}
+\date{\today}
+
+\newtheoremstyle{named}{}{}{\itshape}{}{\bfseries}{.}{.5em}{\thmnote{#3}#1}
+\theoremstyle{named}
+\newtheorem*{theorem}{}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+	A very brief overview of Operations Research and the Transportation Problem for the purpose of
+	examining a particular case study.  The case study revolves around optimization of shipping costs
+	for	a lumber manufacturer which must get wood from different sources to various markets.  Since
+	the manufacturer is considering switching shipments from rail to sea, the objective is to determine
+	the most cost-effective options.
+\end{abstract}
+\tableofcontents
+\pagebreak
+
+\section{Questions}
+\begin{theorem}[Questions]
+	(i.) What question(s) would you like the answer with your project?
+	(ii.) What question(s) can you answer now?
+	(iii.) What direction are you taking next?
+\end{theorem}
+
+%
+
+\section{Liouville's Theorem}
+\begin{theorem}[Statement]
+	The only bounded entire functions are constant.
+\end{theorem}
+\begin{proof}[Proof.]
+Let $f(z)$ be a bounded, entire function and let $z$ be a fixed point of $\mathbb{C}$.
+
+Let $C = \{w \in \mathbb{C}: |w| = R \}$ where $R \gg 1$ and $R \gg |z|$.
+
+By Cauchy's Integral Formula,
+$$f(z) = \frac{1}{2\pi i} \oint_C \frac{f(w)}{w-z} ~dw $$
+and
+$$f(0) = \frac{1}{2\pi i} \oint_C \frac{f(w)}{w} ~dw $$
+Therefore
+$$|f(z) - f(0)| = \left|\frac{1}{2\pi i} \oint_C \left(\frac{f(w)}{w-z} - \frac{f(w)}{w}\right) ~dw \right|$$
+
+$$|f(z) - f(0)| \leq \frac{1}{2\pi} \oint_C \frac{|f(w)| \cdot |z|}{|w (w-z)|} ~|dw| $$
+Since $f$ is bounded, $|f(z)| \leq M < \infty ~\forall ~z \in \mathbb{C}$, therefore
+$$|f(z) - f(0)| \leq \frac{M \cdot |z|}{2\pi} \oint_C \frac{1}{R (R-|z|)} ~|dw| $$
+Since $2\pi R$ is the length of $C$ and $R (R-|z|)$ is constant with respect to $w$,
+$$|f(z) - f(0)| \leq \frac{M \cdot |z|}{2\pi} \cdot \frac{2\pi R}{R (R-|z|)} = \frac{M \cdot |z|}{R-|z|} \to 0 \text{ as } R \to \infty$$
+Therefore, $f(z) = f(0)$.  Since $z$ was any point of $\mathbb{C}$, $f$ is constant.
+\end{proof}
+
+%
+
+\section{Riemann's Theorem on Removable Singularities}
+\begin{theorem}[Statement]
+	If $f$ is analytic and bounded in some punctured neighborhood of $z_0$, then $\lim_{z \to z_0} f(z)$
+	exists.  If $f(z_0)$ is defined as this limit, then $f$ becomes analytic at $z_0$.
+\end{theorem}
+\begin{proof}[Proof.]
+Define $g(z) =
+	\begin{cases}
+		(z - z_0 )^2 f(z) & \text{if } z \neq z_0 \\
+		0       & \text{if } z = z_0
+	\end{cases}
+$
+\\ We show $g$ is analytic in a neighborhood of $z_0$.  $g$ is differentiable at $z_0$ because
+$$ g'(z_0) = \lim_{z \to z_0} \frac{g(z) - g(z_0)}{z - z_0} = \lim_{z \to z_0} \frac{(z-z_0)^2 f(z) - 0}{z - z_0} = \lim_{z \to z_0} (z-z_0) f(z) = 0 $$
+The last step is valid since $|f(z)|$ is bounded.  If $z \neq z_0$,
+$$ g'(z) = 2(z-z_0)f(z) + (z-z_0)^2 f'(z) $$
+So $g$ is analytic in a neighborhood of $z_0$.  Therefore, it coincides with its Taylor Series centered at $z_0$, that is,
+$$ g(z) = a_0 + a_1 (z-z_0) + a_2 (z-z_0)^2 + a_3 (z-z_0)^3 + \cdots $$
+But, $a_0 = g(z_0) = 0$ and $a_1 = g'(z_0) = 0$, therefore
+$$ g(z) = a_2 (z-z_0)^2 + a_3 (z-z_0)^3 + \cdots $$
+$$ f(z) = a_2 + a_3(z-z_0) + \cdots $$
+Set $f(z_0) = a_2$.  Since the power series is valid in a neighborhood of $z_0$ and $f(z)$ is bounded there,
+$f$ is analytic at $z_0$.
+\end{proof}
+
+%
+
+\section{Rouch\'{e}'s Theorem}
+\begin{theorem}[Statement]
+	Let $f$ and $g$ be analytic inside and on a simple, closed curve $C$ and suppose that
+	$|g(z)| < |f(z)|$ when $z$ is on $C$.  Then $f(z)$ and $f(z) + g(z)$ have the same number
+	of zeroes inside $C$.
+\end{theorem}
+\begin{proof}[Proof.]
+Let $N$ be the number of zeroes of $f(z) + g(z)$ inside $C$.
+\\By the Argument Principle,
+$$ N = \frac{1}{2\pi i} \oint_C \frac{f' + g'}{f + g} ~dz $$
+$$ N = \frac{1}{2\pi i} \oint_C \frac{f'}{f} ~dz + \frac{1}{2\pi i} \oint_C \left(\frac{f' + g'}{f + g} - \frac{f'}{f} \right) ~dz$$
+Let $I = \oint_C \left(\frac{f' + g'}{f + g} - \frac{f'}{f} \right) ~dz$
+\\If we can show that $I = 0$, then we are done.  Find a common denominator and
+$$ I = \oint_C \frac{g'f - gf'}{f(f+g)} ~dz $$
+$$ I = \oint_C \frac{\frac{g'f - gf'}{f^2}}{1+\frac{g}{f}} ~dz $$
+Let $\varphi = \frac{g}{f}$, then
+$$ I = \oint_C \frac{\varphi '}{1 + \varphi} ~dz $$
+Since $|\varphi| < 1$ on $C$,
+$$ I = \oint_C \varphi '(1 - \varphi + \varphi^2 - \varphi^3 + \cdots) ~dz $$
+$$ I = \oint_C \varphi ' ~dz - \oint_C \varphi '\varphi ~dz +\oint_C \varphi '\varphi^2 ~dz - \oint_C \varphi '\varphi^3 ~dz + \cdots $$
+$$ I = \oint_C (\varphi)' ~dz - \frac{1}{2}\oint_C (\varphi^2)' ~dz + \frac{1}{3}\oint_C (\varphi^3)' ~dz - \frac{1}{4}\oint_C (\varphi^4)' ~dz + \cdots $$
+We can see each integral is of a derivative and therefore zero, thus $I = 0$.
+\end{proof}
+
+%
+
+\section{Open Mapping Theorem}
+\begin{theorem}[Statement]
+	If a nonconstant function $f$ is analytic on a connected, open set $S$, then the image of
+	$S$ under $w = f(z)$ is an open set.
+\end{theorem}
+\begin{proof}[Proof.]
+Let $f(z)$ be a nonconstant analytic function on a connected, open set $S$.
+\\ Let $z_{0} \in S$ and set $w_{0} = f(z_{0})$.
+\\ Define $g(z) = f(z) - w_{0}$, a translation.  $g(z)$ is nonconstant, analytic, and $g(z_{0}) = 0$, which must
+be an isolated zero of $g$.
+\\ Therefore, there is an $r > 0$ such that the disk $\gamma = \{ |z - z_{0}| \leq r \}$ contains no other zeroes of $g$.
+\\ Let $\delta = \min\limits_{|z - z_{0}| = r} |g(z)|$.
+Let $\Delta$ be the open disk  $\{ |w - w_{0}| < \delta \}$.
+\\ Then for any $z$ on the circle $C = \{z: |z - z_{0}| = r\}$ we have $|w - w_{0}| < |g(z)|$ for some fixed $w \in \Delta$.
+\\ By Rouch\'{e}'s Theorem, $g(z)$ and $g(z) - (w - w_{0})$ have the same number of zeroes inside the disk $C$.
+\\ Since $g$ has at least one zero inside $C$, $g(z) - w + w_{0} = f(z) - w_{0} - w + w_{0} = f(z) - w$
+has at least one zero inside $C$.
+\\ So $w = f(z)$ for at least one $z$ inside $C$.  In other words,
+$w$ is in the image under $f$ of the disk bounded by $\gamma$.
+Therefore, every point $w_{0}$ in the image of $f$ has a neighborhood contained in the image of $f$.
+\end{proof}
+
+%
+
+\begin{thebibliography}{44}
+\bibitem{Hillier}
+Frederick S Hillier, Gerald J Lieberman, \emph{Introduction to Operations Research}, 9e, 2010, ISBN 0073376299
+\end{thebibliography}
+
+\end{document}
